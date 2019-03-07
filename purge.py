@@ -11,7 +11,7 @@ from hysds.celery import app
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("hysds")
 
-def purge_products(query,component,operation):
+def purge_products(query,component,operation, s3_proflie=None):
     '''
     Iterator used to iterate across a query result and submit jobs for every hit
     @param es_url - ElasticSearch URL to hit with query
@@ -51,7 +51,7 @@ def purge_products(query,component,operation):
     
    		#making osaka call to delete product
 		print 'paramater being passed to osaka.main.rmall: ',best
-		if best is not None: osaka.main.rmall(best)
+		if best is not None: osaka.main.rmall(best, {"profile_name": s3_proflie}) if s3_proflie else osaka.main.rmall(best)
 
 		#removing the metadata
 		hysds_commons.metadata_rest_utils.remove_metadata(es_url,index,es_type,ident,logger)
