@@ -11,7 +11,7 @@ from hysds.celery import app
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger("hysds")
 
-def purge_products(query,component,operation, s3_proflie=None, option = "all"):
+def purge_products(query,component,operation, s3_proflie=None, option="all"):
     '''
     Iterator used to iterate across a query result and submit jobs for every hit
     @param es_url - ElasticSearch URL to hit with query
@@ -39,36 +39,34 @@ def purge_products(query,component,operation, s3_proflie=None, option = "all"):
     #print results
     
     if component=='tosca':
-    	for result in results:
-    		es_type = result["_type"]
-    		ident = result["_id"]
-		index = result["_index"]
-		#find the Best URL first
-		best = None
-		for url in result["_source"]["urls"]:
-			if best is None or not url.startswith("http"):
-				best = url
-    
-   		#making osaka call to delete product
-        if "all" in option or "files_only" in option:
-		    print 'paramater being passed to osaka.main.rmall: ',best
-		    if best is not None: osaka.main.rmall(best, {"profile_name": s3_proflie}) if s3_proflie else osaka.main.rmall(best)
-
-		#removing the metadata
-        if "all" in option or "metadata_only" in option:
-            hysds_commons.metadata_rest_utils.remove_metadata(es_url,index,es_type,ident,logger)
+        for result in results:
+            es_type = result["_type"]
+            ident = result["_id"]
+            index = result["_index"]
+            #find the Best URL first
+            best = None
+            for url in result["_source"]["urls"]:
+                if best is None or not url.startswith("http"):
+                    best = url
+            #making osaka call to delete product
+            if "all" in option or "files_only" in option:
+                print 'paramater being passed to osaka.main.rmall: ',best
+                if best is not None: osaka.main.rmall(best, {"profile_name": s3_proflie}) if s3_proflie else osaka.main.rmall(best)
+            #removing the metadata
+            if "all" in option or "metadata_only" in option:
+                hysds_commons.metadata_rest_utils.remove_metadata(es_url,index,es_type,ident,logger)
 
     else:
-	if operation=='purge':
-		purge = True
-	else:
-		purge = False
-	# purge job from index
+        if operation=='purge':
+            purge = True
+        else:
+            purge = False
+            # purge job from index
     
         for result in results:
             uuid = result["_source"]['uuid']
             payload_id = result["_source"]['payload_id']
-	    index = result["_index"]
+            index = result["_index"]
             es_type = result['_type']
             #Always grab latest state (not state from query result)
             task = app.AsyncResult(uuid)
@@ -92,7 +90,7 @@ def purge_products(query,component,operation, s3_proflie=None, option = "all"):
             
             # Both associated task and job from ES
             logger.info( 'Removing ES for %s:%s',es_type,payload_id)
-	    r = hysds_commons.metadata_rest_utils.remove_metadata(es_url,index,es_type,payload_id,logger) 
+            r = hysds_commons.metadata_rest_utils.remove_metadata(es_url,index,es_type,payload_id,logger)
             #r.raise_for_status() #not req
             #res = r.json() #not req
             logger.info('done.\n')
@@ -110,9 +108,9 @@ if __name__ == "__main__":
     decoded_inp = sys.argv[1]
     print decoded_inp
     if decoded_inp.startswith('{"query"') or decoded_inp.startswith("{u'query'") or decoded_inp.startswith("{'query'"):
-    	query_obj = json.loads(decoded_inp)
+        query_obj = json.loads(decoded_inp)
     else:
-    	query_obj["query"]=json.loads(decoded_inp)
+        query_obj["query"]=json.loads(decoded_inp)
 
     component = sys.argv[2]
     operation = sys.argv[3]
