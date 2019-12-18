@@ -25,7 +25,7 @@ def wget_script(dataset=None, glob_dict=None):
     #facetview_url = app.conf["GRQ_URL"]
     print('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index))
     logging.debug('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index))
-    print json.dumps(dataset)
+    print(json.dumps(dataset))
     logging.debug(json.dumps(dataset))
 
     r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index), json.dumps(dataset))
