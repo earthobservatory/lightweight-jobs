@@ -31,7 +31,7 @@ def wget_script(dataset=None, glob_dict=None):
     r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index), json.dumps(dataset))
     if r.status_code != 200:
         print("Failed to query ES. Got status code %d:\n%s" %(r.status_code, json.dumps(r.json(), indent=2)))
-	logger.debug("Failed to query ES. Got status code %d:\n%s" %
+    logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(r.json(), indent=2)))
     r.raise_for_status()
     logger.debug("result: %s" % pformat(r.json()))
@@ -81,7 +81,7 @@ def wget_script(dataset=None, glob_dict=None):
                 [unique_urls.append(url) for url in hit['_source']['urls'] if url not in unique_urls and url.startswith("http")]
 
             for url in unique_urls:
-		logging.debug("urls in unique urls: %s",url)
+                logging.debug("urls in unique urls: %s",url)
                 if '.s3-website' in url or 'amazonaws.com' in url:
                         parsed_url = urlparse(url)
                         cut_dirs = len(parsed_url.path[1:].split('/')) - 1
@@ -124,23 +124,21 @@ def wget_script(dataset=None, glob_dict=None):
 
 
 def get_s3_files(url):
-        files = []
-	print("Url in the get_s3_files function: %s",url)
-        parsed_url = urlparse(url)
-        bucket = parsed_url.hostname.split('.', 1)[0]
-        client = boto3.client('s3')
-        results = client.list_objects(Bucket=bucket, Delimiter='/', Prefix=parsed_url.path[1:] + '/')
-
-        if results.get('Contents'):
-                for result in results.get('Contents'):
-                        files.append(parsed_url.scheme + "://" + parsed_url.hostname + '/' + result.get('Key'))
-
-        if results.get('CommonPrefixes'):
-                for result in results.get('CommonPrefixes'):
-                        # Prefix values have a trailing '/'. Let's remove it to be consistent with our dir urls
-                        folder = parsed_url.scheme + "://" + parsed_url.hostname + '/' + result.get('Prefix')[:-1]
-                        files.extend(get_s3_files(folder))
-        return files
+    files = []
+    print("Url in the get_s3_files function: %s" % url)
+    parsed_url = urlparse(url)
+    bucket = parsed_url.hostname.split('.', 1)[0]
+    client = boto3.client('s3')
+    results = client.list_objects(Bucket=bucket, Delimiter='/', Prefix=parsed_url.path[1:] + '/')
+    if results.get('Contents'):
+            for result in results.get('Contents'):
+                    files.append(parsed_url.scheme + "://" + parsed_url.hostname + '/' + result.get('Key'))
+    if results.get('CommonPrefixes'):
+            for result in results.get('CommonPrefixes'):
+                    # Prefix values have a trailing '/'. Let's remove it to be consistent with our dir urls
+                    folder = parsed_url.scheme + "://" + parsed_url.hostname + '/' + result.get('Prefix')[:-1]
+                    files.extend(get_s3_files(folder))
+    return files
 
 def email(query, emails, rule_name):
     '''
@@ -237,7 +235,7 @@ if __name__ == "__main__":
     # getting the script
     wget_script(query, glob_dict)
     if emails=="unused":
-	make_product(rule_name, query)
+        make_product(rule_name, query)
     else:
-    	# now email the query
-   	email(query, emails, rule_name)
+        # now email the query
+        email(query, emails, rule_name)
