@@ -19,6 +19,14 @@
     {
       "name": "username",
       "destination": "context"
+    },
+    {
+      "name": "include_glob",
+      "destination": "context"
+    },
+    {
+      "name": "exclude_glob",
+      "destination": "context"
     }
    ]
 }
