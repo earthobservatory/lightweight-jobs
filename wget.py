@@ -31,7 +31,7 @@ def wget_script(dataset=None, glob_dict=None):
     r = requests.post('%s/%s/_search?search_type=scan&scroll=10m&size=100' % (es_url, index), json.dumps(dataset))
     if r.status_code != 200:
         print("Failed to query ES. Got status code %d:\n%s" %(r.status_code, json.dumps(r.json(), indent=2)))
-    logger.debug("Failed to query ES. Got status code %d:\n%s" %
+        logger.debug("Failed to query ES. Got status code %d:\n%s" %
                          (r.status_code, json.dumps(r.json(), indent=2)))
     r.raise_for_status()
     logger.debug("result: %s" % pformat(r.json()))
