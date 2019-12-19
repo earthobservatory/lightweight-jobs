@@ -1,4 +1,4 @@
-FROM hysds/pge-base:python2
+FROM hysds/pge-base:latest
 
 MAINTAINER malarout "Namrata.Malarout@jpl.nasa.gov"
 LABEL description="Lightweight System Jobs"
