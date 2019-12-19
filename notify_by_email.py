@@ -103,7 +103,7 @@ def send_email(sender, cc_recipients, bcc_recipients, subject, body, attachments
     
     # Send the message via SMTP to docker host
     smtp_url = "smtp://%s:25" % get_container_host_ip()
-    print "smtp_url : %s",smtp_url
+    print("smtp_url : %s" % smtp_url)
     smtp = SMTP(get_container_host_ip())
     smtp.sendmail(sender, recipients, msg.as_string())
     smtp.quit()
@@ -124,7 +124,7 @@ def get_source(es_url, query_idx, objectid):
             }
         }
     }
-    print 'get_source debug:', '%s/%s/_search',es_url,"    ", query_idx,'    ',json.dumps(query)
+    print('get_source debug:', '%s/%s/_search',es_url,"    ", query_idx,'    ',json.dumps(query))
     r = requests.post('%s/%s/_search' % (es_url, query_idx), data=json.dumps(query))
     r.raise_for_status()
     result = r.json()
@@ -191,13 +191,13 @@ if __name__ == "__main__":
     component = sys.argv[5]
 
     if component=="mozart" or component=="figaro":
-	es_url = app.conf["JOBS_ES_URL"]
-	query_idx = app.conf["STATUS_ALIAS"]
-	facetview_url = app.conf["MOZART_URL"]
+        es_url = app.conf["JOBS_ES_URL"]
+        query_idx = app.conf["STATUS_ALIAS"]
+        facetview_url = app.conf["MOZART_URL"]
     elif component=="tosca":
-	es_url = app.conf["GRQ_ES_URL"]
-	query_idx = app.conf["DATASET_ALIAS"]
-	#facetview_url = app.conf["TOSCA_URL"]
+        es_url = app.conf["GRQ_ES_URL"]
+        query_idx = app.conf["DATASET_ALIAS"]
+        #facetview_url = app.conf["TOSCA_URL"]
         #updating facetview_url with updated aria-search-beta hostname
         facetview_url = "https://aria-search-beta.jpl.nasa.gov/search"
 
