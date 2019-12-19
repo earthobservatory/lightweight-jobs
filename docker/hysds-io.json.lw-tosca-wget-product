@@ -23,6 +23,21 @@
       "name": "username",
       "from": "passthrough",
       "type": "text"
+    },
+    {
+      "name": "include_glob",
+      "type": "text",
+      "from": "submitter",
+      "default": "*final*",
+      "placeholder": "A comma seperated list of globs to download"
+    },
+    {
+      "name": "exclude_glob",
+      "type": "text",
+      "from": "submitter",
+      "default": "*tiles*",
+      "optional": true,
+      "placeholder": "(Optional) A comma seperated list of globs to exclude from included list"
     }
   ]
 }
