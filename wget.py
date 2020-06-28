@@ -255,7 +255,6 @@ if __name__ == "__main__":
         glob_dict = {"include":context["include_glob"], "exclude": context["exclude_glob"]}
 
     # getting the script
-
     wget_script(query, glob_dict)
     if emails=="unused":
         make_product(rule_name, query)

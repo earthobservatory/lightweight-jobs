@@ -8,12 +8,12 @@ import types
 import base64
 import socket
 from smtplib import SMTP
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
-from email.MIMEBase import MIMEBase
-from email.Header import Header
-from email.Utils import parseaddr, formataddr, COMMASPACE, formatdate
-from email import Encoders
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email.header import Header
+from email.utils import parseaddr, formataddr, COMMASPACE, formatdate
+from email import encoders
 from hysds.celery import app
 from hysds_commons.net_utils import get_container_host_ip
 
@@ -104,7 +104,7 @@ def send_email(sender, cc_recipients, bcc_recipients, subject, body, attachments
         for fname in attachments:
             part = MIMEBase('application', "octet-stream")
             part.set_payload(attachments[fname])
-            Encoders.encode_base64(part)
+            encoders.encode_base64(part)
             part.add_header('Content-Disposition',
                             'attachment; filename="%s"' % fname)
             msg.attach(part)
