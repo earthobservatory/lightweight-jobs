@@ -258,7 +258,7 @@ if __name__ == "__main__":
 
     wget_script(query, glob_dict)
     if emails=="unused":
-	make_product(rule_name, query)
+        make_product(rule_name, query)
     else:
         # now email the query
         email(query, emails, rule_name)
