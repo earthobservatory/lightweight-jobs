@@ -53,7 +53,7 @@ def purge_products(query,component,operation, s3_proflie=None, option="all"):
                     best = url
             #making osaka call to delete product
             if "all" in option or "files_only" in option:
-                print 'paramater being passed to osaka.main.rmall: ',best
+                print('paramater being passed to osaka.main.rmall: ',best)
                 if best is not None: osaka.main.rmall(best, {"profile_name": s3_proflie}) if s3_proflie else osaka.main.rmall(best)
             #removing the metadata
             if "all" in option or "metadata_only" in option:
