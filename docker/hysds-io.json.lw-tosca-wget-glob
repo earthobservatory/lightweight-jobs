@@ -1,5 +1,5 @@
 {
-  "label":"Wget Script via Product",
+  "label":"Wget Script Glob Select via E-mail",
   "component":"tosca",
   "submission_type":"individual",
   "params" : [
@@ -11,18 +11,7 @@
     {
       "name": "emails",
       "type": "text",
-      "from": "value",
-      "value": "unused"
-    },
-    {
-      "name": "name",
-      "type": "text",
-      "from": "passthrough"
-    },
-    {
-      "name": "username",
-      "from": "passthrough",
-      "type": "text"
+      "from": "submitter"
     },
     {
       "name": "include_glob",
@@ -38,6 +27,11 @@
       "default": "*tiles*",
       "optional": true,
       "placeholder": "(Optional) A comma seperated list of globs to exclude from included list"
+    },
+    {
+      "name": "name",
+      "type": "text",
+      "from": "passthrough"
     }
   ]
 }

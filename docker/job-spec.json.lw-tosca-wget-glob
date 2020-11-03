@@ -1,7 +1,7 @@
 {
   "required_queues":["system-jobs-queue"],
-  "command":"/home/ops/verdi/ops/lightweight-jobs/aws_get.sh",
-  "imported_worker_files":{"$HOME/.aws":"/home/ops/.aws"}, 
+  "command":"/home/ops/verdi/ops/lightweight-jobs/wget.sh",
+  "imported_worker_files":{"$HOME/.aws":"/home/ops/.aws"},
   "disk_usage":"3GB",
   "soft_time_limit": 86400,
   "time_limit": 86700,
@@ -17,6 +17,14 @@
     {
       "name": "name",
       "destination": "positional"
+    },
+    {
+      "name": "include_glob",
+      "destination": "context"
+    },
+    {
+      "name": "exclude_glob",
+      "destination": "context"
     }
    ]
 }
