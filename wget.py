@@ -97,7 +97,7 @@ def wget_script(dataset=None, glob_dict=None):
 
             for url in unique_urls:
                 logging.debug("urls in unique urls: %s", url)
-                if '.s3-website' in url or 'amazonaws.com' in url:
+                if '.s3-website' in url or 'amazonaws.com' in url or 'eos-sg.net' in url:
                     parsed_url = urlparse(url)
                     cut_dirs = len(parsed_url.path[1:].split('/')) - 1
                 else:
@@ -105,7 +105,7 @@ def wget_script(dataset=None, glob_dict=None):
                         cut_dirs = 3
                     else:
                         cut_dirs = 6
-                if '.s3-website' in url or 'amazonaws.com' in url:
+                if '.s3-website' in url or 'amazonaws.com' in url or 'eos-sg.net' in url:
                     files = get_s3_files(url)
                     if glob_dict:
                         files = glob_filter(files, glob_dict)
